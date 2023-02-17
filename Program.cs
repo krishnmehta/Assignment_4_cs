@@ -60,10 +60,10 @@ namespace Assignment4 // Note: actual namespace depends on the project name.
                          select new
                          {
                              Name = g.Key.EmployeeFirstName + " " + g.Key.EmployeeLastName,
-                             TotalSalary = g.Sum(s => s.Amount)
+                             TotalSalary = g.Sum(s => s.Amount) //Addition of total salary using Sum Function
                          }
                          into tempResult
-                         orderby tempResult.TotalSalary ascending
+                         orderby tempResult.TotalSalary ascending // So that lowest salary will be at first
                          select tempResult;
 
             Console.WriteLine("*-----Task-1-----*");
@@ -81,10 +81,10 @@ namespace Assignment4 // Note: actual namespace depends on the project name.
             //Implementation
             var result = from emp in employeeList.Cast<Employee>()
                          where emp.Age > 0
-                         orderby emp.Age descending
+                         orderby emp.Age descending // So that oldest will be at first position
                          select emp;
 
-            var SecondOldestemp = result.Skip(1).Take(1);
+            var SecondOldestemp = result.Skip(1).Take(1); //Since we need to select second oldest employee we have skip the first one and after that taken one employee
             var monthlySalary = from emp in SecondOldestemp
                                 join sal in salaryList.Cast<Salary>() on emp.EmployeeID equals sal.EmployeeID
                                 where sal.Type == SalaryType.Monthly
@@ -113,6 +113,8 @@ namespace Assignment4 // Note: actual namespace depends on the project name.
         public void Task3()
         {
             //Implementation
+            //For this task through Id we will select all the salary of employee and find the average of it
+
             var result = from emp in employeeList.Cast<Employee>()
                          join sal in salaryList.Cast<Salary>()
                          on emp.EmployeeID equals sal.EmployeeID
@@ -122,7 +124,7 @@ namespace Assignment4 // Note: actual namespace depends on the project name.
                          {
                              Id = g.Key.EmployeeID,
                              Name = g.Key.EmployeeFirstName + " " + g.Key.EmployeeLastName,
-                             AvgSal = g.Select(s => s.Amount).Average()
+                             AvgSal = g.Average(s => s.Amount), // Using Average function finding mean 
                          };
 
             Console.WriteLine("\n*-----Task-3-----*");
